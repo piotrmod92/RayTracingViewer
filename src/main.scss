@@ -1,0 +1,59 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: lightsalmon;
+    padding: 10px 0;
+    text-align: center;
+    text-transform: uppercase;
+
+    h1 {
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+}
+
+.content {
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.interface {
+    background-color: gray;
+    display: flex;
+    flex: 1;
+    flex-basis: 100%;
+    flex-direction: column;
+    @media screen and (min-width: 768px) {
+        flex-basis: 40%;
+    }
+}
+
+.scene {
+    background-color: black;
+    color: white;
+    display: flex;
+    flex: 1;
+    flex-basis: 100%;
+    flex-direction: column;
+    @media screen and (min-width: 768px) {
+        flex-basis: 60%;
+    }
+}
+
+footer {
+    background-color: lightsalmon;
+    padding: 2px 0;
+    text-align: center;
+}
