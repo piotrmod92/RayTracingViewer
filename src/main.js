@@ -35,7 +35,7 @@
                 }, scanIntervalTime);
             }
         });
-    }
+    };
 
     const generateAngle = (angle, lowerLimit, upperLimit) => {
         if (!Number.isInteger(angle) || !Number.isInteger(lowerLimit) || !Number.isInteger(upperLimit) || angle < lowerLimit || angle > upperLimit) {
@@ -58,11 +58,13 @@
             }
         }
         return angle;
-    }
+    };
 
     const initCanvas = () => {
         const canvas = document.getElementById("canvas");
         const engine = new BABYLON.Engine(canvas, true);
+        let box1;
+        let box2;
 
         const createScene = () => {
             // Scene, camera, lights 
@@ -71,26 +73,34 @@
             const camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, -10), scene);
             camera.setTarget(BABYLON.Vector3.Zero());
             camera.attachControl(canvas, true);
-            const light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
-            const light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
+            const light = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 10, -10), scene);
             
             // Objects
-            var box1 = BABYLON.MeshBuilder.CreateBox("box", {height: 0.2, width: 5, depth: 1}, scene);
-            box1.position.y=.4;
-            var box2 = BABYLON.MeshBuilder.CreateBox("box", {height: 0.2, width: 5, depth: 1}, scene);
-            box2.position.y=-.4;
+            const length = parseFloat(document.getElementById('length').value);
+            const gap = parseFloat(document.getElementById('gap').value);
+            box1 = BABYLON.MeshBuilder.CreateBox("box", {height: 0.2, depth: 2, width: length}, scene);
+            box2 = BABYLON.MeshBuilder.CreateBox("box", {height: 0.2, depth: 2, width: length}, scene);
+            box1.position.y = 0.1 + 0.5 * gap;
+            box2.position.y = -0.1 - 0.5 * gap;
             return scene;
         };
 
         const scene = createScene();
-        engine.runRenderLoop(() => { 
+        engine.runRenderLoop(() => {
+            const length = parseFloat(document.getElementById('length').value);
+            const gap = parseFloat(document.getElementById('gap').value);
+            // Divide current length by initial length (5 cm)
+            box1.scaling.x = length / 5;
+            box2.scaling.x = length / 5;
+            box1.position.y = 0.1 + 0.5 * gap;
+            box2.position.y = -0.1 - 0.5 * gap;
             scene.render();
         });
 
-        window.addEventListener("resize", () => { 
+        window.addEventListener("resize", () => {
             engine.resize();
         });
-    }
+    };
 
     // Run application
     addScanButtonOnclick();
