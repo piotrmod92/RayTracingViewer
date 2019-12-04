@@ -60,6 +60,39 @@
         return angle;
     }
 
+    const initCanvas = () => {
+        const canvas = document.getElementById("canvas");
+        const engine = new BABYLON.Engine(canvas, true);
+
+        const createScene = () => {
+            // Scene, camera, lights 
+            const scene = new BABYLON.Scene(engine);
+            scene.clearColor = new BABYLON.Color3.Gray();
+            const camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, -10), scene);
+            camera.setTarget(BABYLON.Vector3.Zero());
+            camera.attachControl(canvas, true);
+            const light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
+            const light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
+            
+            // Objects
+            var box1 = BABYLON.MeshBuilder.CreateBox("box", {height: 0.2, width: 5, depth: 1}, scene);
+            box1.position.y=.4;
+            var box2 = BABYLON.MeshBuilder.CreateBox("box", {height: 0.2, width: 5, depth: 1}, scene);
+            box2.position.y=-.4;
+            return scene;
+        };
+
+        const scene = createScene();
+        engine.runRenderLoop(() => { 
+            scene.render();
+        });
+
+        window.addEventListener("resize", () => { 
+            engine.resize();
+        });
+    }
+
     // Run application
     addScanButtonOnclick();
+    initCanvas();
 })();

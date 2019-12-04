@@ -61,7 +61,6 @@ article {
 
 .scene {
     background-color: black;
-    color: white;
     display: flex;
     flex: 1;
     flex-basis: 100%;
@@ -70,6 +69,11 @@ article {
     @media screen and (min-width: 768px) {
         flex-basis: auto;
     }
+}
+
+#canvas {
+    height: 100%;
+    width: 100%;
 }
 
 footer {
