@@ -56,23 +56,23 @@
         let x = 0;
         let y = 0;
         const shift = length / 2;
-        vertices.push(new BABYLON.Vector3(x - shift, y, 0));
+        vertices.push([x - shift, y, 0]);
         if (angle > 0) {
             do {
                 const i = vertices.length;
                 x = (2 * i - 1) * gap / (2 * Math.tan(degToRad(angle)));
                 y = Math.pow(-1, i - 1) * gap / 2;
-                vertices.push(new BABYLON.Vector3(x - shift, y, 0));
+                vertices.push([x - shift, y, 0]);
             } while (x > 0 && x < length)
         } else if (angle < 0) {
             do {
                 const i = vertices.length;
                 x = - (2 * i - 1) * gap / (2 * Math.tan(degToRad(angle)));
                 y = Math.pow(-1, i) * gap / 2;
-                vertices.push(new BABYLON.Vector3(x - shift, y, 0));
+                vertices.push([x - shift, y, 0]);
             } while (x > 0 && x < length)
         } else {
-            vertices.push(new BABYLON.Vector3(length - shift, 0, 0));
+            vertices.push([length - shift, 0, 0]);
         }
         return vertices;
     }
@@ -125,8 +125,9 @@
             box2.position.y = -0.1 - 0.5 * gap;
 
             const currentAngle = parseInt(document.getElementById('angle').value);
-            const points = calculateRayVertices(currentAngle, length, gap);
-            const path3d = new BABYLON.Path3D(points);
+            const pointsArray = calculateRayVertices(currentAngle, length, gap);
+            const babylonPointsArray = pointsArray.map(p => new BABYLON.Vector3(p[0], p[1], p[2]));
+            const path3d = new BABYLON.Path3D(babylonPointsArray);
             const curve = path3d.getCurve();
             const line = BABYLON.Mesh.CreateLines('line', curve, scene);
             scene.render();
